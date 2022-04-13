@@ -5,7 +5,7 @@ interface FileProps {
 }
 
 const File = ({ name }: FileProps) => {
-    return <li>{name}</li>;
+    return <li onClick={()=>{console.log("click:"+name)}}>{name}</li>;
 };
 
 export default File;

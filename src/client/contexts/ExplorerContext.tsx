@@ -3,6 +3,9 @@ import { useState, createContext, useContext, useRef, useEffect } from "react";
 import { FileEvent } from "../../shared/types/FileEvent";
 import { TreeNode } from "../types/TreeNode";
 import type { FileInfo } from '../types/FileInfo';
+import ReactPlayer from 'react-player'
+
+
 
 const ExplorerContext = createContext({ getChildren: (path: string[]): null | FileInfo[] => null, open: (path: string[]) => { }, close: (path: string[]) => { }, roots: new Array<string>() });
 
@@ -11,6 +14,15 @@ const ExplorerProvider = ({ children }: React.PropsWithChildren<{}>) => {
     const [opened, setOpened] = useState(new Map<string, number>());
     const [roots, setRoots] = useState<string[]>([]);
     const [status, setStatus] = useState(-1);
+    const [videoFilePath, setVideoFilePath] = useState(null);
+
+    const handleVideoUpload = (event:any) => {
+        console.log("file"+event.target.files[0])
+        setVideoFilePath(URL.createObjectURL(event.target.files[0]));
+        };
+    
+        
+
     const wsRef = useRef<WebSocket>(null);
     const ws = wsRef.current;
 
@@ -141,10 +153,23 @@ const ExplorerProvider = ({ children }: React.PropsWithChildren<{}>) => {
                 pathname: pathname
             }));
     };
+    
+    var videoPlayer
 
-    return (<ExplorerContext.Provider value={{ getChildren, open, close, roots }}>
-        {children}
-    </ExplorerContext.Provider>);
+
+
+    return (
+    <div>
+        <input type="file" onChange={handleVideoUpload} />
+        <ReactPlayer playing url={['/Users/dionisislavrantonis/Downloads/DimKiposFraxtis_20220409_191319.mp4', 'Users/dionisislavrantonis/Downloads/DimKiposFraxtis_20220409_191319.mp4']} />
+        <ReactPlayer   ref={player => { videoPlayer = player }}  url={'file:///Users/dionisislavrantonis/Downloads/DimKiposFraxtis_20220409_191319.mp4' } playing={false} controls={true}  config={{ file: { attributes: {crossorigin: 'anonymous' }}}}/>
+        <ExplorerContext.Provider value={{ getChildren, open, close, roots }}>
+            {children}
+        </ExplorerContext.Provider>
+    </div>
+)
+    
+    ;
 };
 
 export { ExplorerContext, ExplorerProvider };
