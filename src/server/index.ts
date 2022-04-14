@@ -28,7 +28,7 @@ async function main(args: string[]) {
   registerWebSocketServer(server, roots);
   app.use(serve(path.join(__dirname, "..", "public")));
 
-  server.listen(process.env.PORT, function listening() {
+  server.listen(3001, function listening() {
     const port = (server.address() as AddressInfo).port;
     console.log("Listening on", port);
     if (process.env.OPEN) open("http://localhost:" + port);

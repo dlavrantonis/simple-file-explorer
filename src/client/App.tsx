@@ -4,7 +4,5 @@ import Roots from './components/Roots';
 import "./styles.css";
 
 export const App = () => (
-  <ExplorerProvider>
-    <Roots />
-  </ExplorerProvider>
+  <div></div>
 );;
