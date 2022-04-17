@@ -37,6 +37,7 @@ export function registerWebSocketServer(server: http.Server, roots: string[]) {
 
     ws.on("close", () => {
       for (let [pathname, unsub] of subscriptions) {
+        console.log("onClose")
         unsub();
         subscriptions.delete(pathname);
       }
