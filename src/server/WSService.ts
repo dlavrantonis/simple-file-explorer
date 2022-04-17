@@ -23,14 +23,17 @@ export function registerWebSocketServer(server: http.Server, roots: string[]) {
 
     console.log("Sending root folders", roots);
 
-    ws.send(
-      JSON.stringify(
-        roots.map((root) => ({
-          eventType: "root",
-          pathname: root,
-        }))
-      )
-    );
+    setTimeout(()=>{
+      ws.send(
+        JSON.stringify(
+          roots.map((root) => ({
+            eventType: "root",
+            pathname: root,
+          }))
+        )
+      );
+    },2000)
+
 
     ws.on("close", () => {
       for (let [pathname, unsub] of subscriptions) {
