@@ -5,7 +5,7 @@ import fs from "fs";
 import path from "path";
 
 interface FolderOperation {
-  type: "open" | "close";
+  type: "open" | "close" | "ping";
   pathname: string;
 }
 
@@ -47,6 +47,8 @@ export function registerWebSocketServer(server: http.Server, roots: string[]) {
 
       const { type, pathname } = JSON.parse(message) as FolderOperation;
       switch (type) {
+        case "ping":
+          break;
         case "open":
           // Can only open folders
           if ((await getFileType(pathname)) != "folder") return;
