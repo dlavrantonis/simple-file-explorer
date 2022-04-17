@@ -31,7 +31,7 @@ async function main(args: string[]) {
   server.listen(3001, function listening() {
     const port = (server.address() as AddressInfo).port;
     console.log("Listening on", port);
-    if (process.env.OPEN) open("http://localhost:" + port);
+    if (process.env.OPEN) open("http://0.0.0.0:" + port);
   });
 }
 
