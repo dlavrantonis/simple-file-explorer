@@ -32,7 +32,7 @@ export function registerWebSocketServer(server: http.Server, roots: string[]) {
           }))
         )
       );
-    },2000)
+    },1000)
 
 
     ws.on("close", () => {
