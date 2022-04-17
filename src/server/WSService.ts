@@ -48,6 +48,7 @@ export function registerWebSocketServer(server: http.Server, roots: string[]) {
       const { type, pathname } = JSON.parse(message) as FolderOperation;
       switch (type) {
         case "ping":
+          ws.send("{\"type\":\"pong\"`}")
           break;
         case "open":
           // Can only open folders
