@@ -39,6 +39,8 @@ export function registerWebSocketServer(server: http.Server, roots: string[]) {
       }
     });
     ws.on("message", async (message: string) => {
+      console.log(`INCOMING message:`+message);
+
       const { type, pathname } = JSON.parse(message) as FolderOperation;
       switch (type) {
         case "open":
@@ -51,7 +53,10 @@ export function registerWebSocketServer(server: http.Server, roots: string[]) {
             subscriptions.set(
               pathname,
               fileWatcher.subscribe(pathname, (fileEvent) =>
+              {
+                console.log("Sending fileEvent", JSON.stringify(fileEvent));
                 ws.send(JSON.stringify(fileEvent))
+              }
               )
             );
 
@@ -67,12 +72,13 @@ export function registerWebSocketServer(server: http.Server, roots: string[]) {
                 };
               })
             );
-
+            console.log("Sending batch", JSON.stringify(batch));
+  
             ws.send(JSON.stringify(batch));
 
             // Informing the front-end that a folder is empty
             if (!files.length) {
-              console.log(pathname, "is empty");
+              console.log(pathname, "is empty, sending empty");
               ws.send(
                 JSON.stringify({
                   eventType: "empty",
